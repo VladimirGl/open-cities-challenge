@@ -32,14 +32,14 @@ data:
 
   # loaders
   train_dataloader:
-    batch_size: 6
+    batch_size: 4
     shuffle: true
     drop_last: true
     pin_memory: true
     num_workers: 8
 
   valid_dataloader:
-    batch_size: 8
+    batch_size: 4
     shuffle: false
     drop_last: false
     pin_memory: true
@@ -69,7 +69,7 @@ training:
 
   fit:
     epochs: 50
-    accumulation_steps: 4
+    accumulation_steps: 6
     verbose: true
 
   callbacks: []
