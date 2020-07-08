@@ -11,4 +11,6 @@ pandas==1.0.3
 ttach==0.0.2
 addict==2.2.1
 fire==0.2.1
-Pillow=6.1.0
+Pillow==6.1.0
+PyYAML==5.3.1
+rasterio
