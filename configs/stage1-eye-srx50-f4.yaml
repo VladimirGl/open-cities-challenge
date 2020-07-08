@@ -12,22 +12,22 @@ model:
 
 data:
 
-  df_path: ./data/processed/train_folds.csv
+  df_path: ./data/train_0/folds.csv
   fold: 4
 
   # datasets
   train_dataset:
-    name: SegmentationDataset
+    name: SegmentationDatasetEye
     init_params:
-      images_dir: ./data/processed/train/images/
-      masks_dir: ./data/processed/train/masks/
+      images_dir: ./data/train_0/images/
+      masks_dir: ./data/train_0/masks/
       transform_name: train_transform_2
 
   valid_dataset:
-    name: SegmentationDataset
+    name: SegmentationDatasetEye
     init_params:
-      images_dir: ./data/processed/train/images/
-      masks_dir: ./data/processed/train/masks/
+      images_dir: ./data/train_0/images/
+      masks_dir: ./data/train_0/masks/
       transform_name: test_transform_2
 
   # loaders

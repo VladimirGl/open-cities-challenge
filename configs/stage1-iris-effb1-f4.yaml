@@ -1,34 +1,34 @@
-logdir: models/stage1/srx50-f0/
+logdir: models/stage1/effb1-f4/
 gpus: [0]
 
 # define model
 model:
   architecture: Unet
   init_params:
-    encoder_name: se_resnext50_32x4d
+    encoder_name: efficientnet-b1
     encoder_weights: imagenet
     classes: 1
     activation: sigmoid
 
 data:
 
-  df_path: ./data/processed/train_folds.csv
-  fold: 0
+  df_path: ./data/train_0/folds.csv
+  fold: 4
 
   # datasets
   train_dataset:
-    name: SegmentationDataset
+    name: SegmentationDatasetIris
     init_params:
-      images_dir: ./data/processed/train/images/
-      masks_dir: ./data/processed/train/masks/
-      transform_name: train_transform_2
+      images_dir: ./data/train_0/images/
+      masks_dir: ./data/train_0/masks/
+      transform_name: train_transform_4
 
   valid_dataset:
-    name: SegmentationDataset
+    name: SegmentationDatasetIris
     init_params:
-      images_dir: ./data/processed/train/images/
-      masks_dir: ./data/processed/train/masks/
-      transform_name: test_transform_2
+      images_dir: ./data/train_0/images/
+      masks_dir: ./data/train_0/masks/
+      transform_name: test_transform_4
 
   # loaders
   train_dataloader:

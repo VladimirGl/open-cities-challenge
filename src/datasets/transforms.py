@@ -29,10 +29,12 @@ train_transform_1 = A.Compose([
 ])
 
 valid_transform_1 = A.Compose([
+    A.PadIfNeeded(768, 768, border_mode=0, value=0, p=1.),
     post_transform,
 ])
 
 test_transform_1 = A.Compose([
+    A.PadIfNeeded(768, 768, border_mode=0, value=0, p=1.),
     post_transform,
 ])
 
