@@ -1,5 +1,5 @@
 logdir: models/stage1/effb1-f3/
-gpus: [0]
+gpus: [1]
 
 # define model
 model:
