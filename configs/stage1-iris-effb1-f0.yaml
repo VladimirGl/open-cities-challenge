@@ -1,4 +1,4 @@
-logdir: models/stage1/effb1-f0/
+logdir: models/stage1/iris-effb1-f0/
 gpus: [1]
 
 # define model

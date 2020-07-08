@@ -1,4 +1,4 @@
-logdir: models/stage1/effb1-f4/
+logdir: models/stage1/eye-effb1-f4/
 gpus: [0]
 
 # define model

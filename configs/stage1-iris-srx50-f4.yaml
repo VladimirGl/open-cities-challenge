@@ -1,4 +1,4 @@
-logdir: models/stage1/srx50-f4/
+logdir: models/stage1/iris-srx50-f4/
 gpus: [1]
 
 # define model
