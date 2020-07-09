@@ -1,5 +1,5 @@
 logdir: models/stage1/pupil-srx50-f1/
-gpus: [0]
+gpus: [1]
 
 # define model
 model:
