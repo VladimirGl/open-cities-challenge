@@ -80,15 +80,12 @@ def main(args):
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
     
     # define where stithced and not stitched test data is located
-    src_sliced_dir = os.path.join(args.test_dir, "sliced")
-    src_stitched_dir = os.path.join(args.test_dir, "stitched")
+    src_sliced_dir = os.path.join(args.test_dir, "images")
 
     # prepare output (prediction) dirs
-    dst_sliced_dir = os.path.join(args.dst_dir, "sliced")
-    dst_stitch_dir = os.path.join(args.dst_dir, "stitched")
+    dst_sliced_dir = os.path.join(args.dst_dir, "images")
 
     os.makedirs(dst_sliced_dir, exist_ok=True)
-    os.makedirs(dst_stitch_dir, exist_ok=True)
 
     # --------------------------------------------------
     # define model
@@ -121,35 +118,8 @@ def main(args):
     runner = GPUNormRunner(model, model_device=device)
     model.eval()
 
-    # predict big tif files
-    predictor = TorchTifPredictor(
-        runner=runner, sample_size=1024, cut_edge=256,
-        batch_size=args.batch_size,
-        count=1, NBITS=1, compress=None, driver="GTiff",
-        blockxsize=256, blockysize=256, tiled=True, BIGTIFF='IF_NEEDED',
-    )
-
-    print("Inference for big tif files...")
-    filesnames = os.listdir(src_stitched_dir)
-    for filename in filesnames:
-        _src_path = os.path.join(src_stitched_dir, filename)
-        _dst_path = os.path.join(dst_stitch_dir, filename)
-        predictor(_src_path, _dst_path)
-
-    print("Slicing big tif files to original test size...")
-    df = pd.read_csv(args.test_csv)
-    df = df[df.cluster_id != -1]
-    cluster_ids = df.cluster_id.unique()
-    for id in cluster_ids:
-        _df = df[df.cluster_id == id]
-        _args = [(dst_stitch_dir, dst_sliced_dir, row) for i, row in _df.iterrows()]
-        with Pool(12) as p:
-            with tqdm(p.imap(slice_to_tiles, _args), total=len(_args)) as pp:
-                for _ in pp:
-                    pass
-
     # predict not stitched data
-    print("Predicting small tif files...")
+    print("Predicting initial files")
     test_dataset = TestSegmentationDataset(src_sliced_dir, transform_name='test_transform_1')
     test_dataloader = torch.utils.data.DataLoader(
         test_dataset, batch_size=args.batch_size, pin_memory=True, num_workers=8,
@@ -163,7 +133,7 @@ def main(args):
             prediction = prediction.round().int().cpu().numpy().astype("uint8")
             profile = test_dataset.read_image_profile(image_id)
             dst_path = os.path.join(dst_sliced_dir, image_id)
-            write_tile(dst_path, prediction, profile, compress="lzw", driver="GTiff")
+            cv2.imwrite(dst_path, prediction)
 
 
 if __name__ == "__main__":

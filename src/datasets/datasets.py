@@ -208,12 +208,10 @@ class TestSegmentationDataset(Dataset):
         return sample
 
     def read_image(self, path):
-        with rasterio.open(path) as f:
-            image = f.read()[:3]
-        image = image.transpose(1, 2, 0)
+        image = cv2.imread(path)
+#        image = image.transpose(1, 2, 0)
+#        print('img:', image.shape)
         return image
 
     def read_image_profile(self, id):
-        path = os.path.join(self.images_dir, id)
-        with rasterio.open(path) as f:
-            return f.profile
+        pass
