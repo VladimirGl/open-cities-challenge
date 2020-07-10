@@ -6,6 +6,7 @@ import addict
 import argparse
 import rasterio
 import pandas as pd
+import cv2
 
 from tqdm import tqdm
 from multiprocessing import Pool
