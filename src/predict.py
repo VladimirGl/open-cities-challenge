@@ -121,7 +121,7 @@ def main(args):
 
     # predict not stitched data
     print("Predicting initial files")
-    test_dataset = TestSegmentationDataset(src_sliced_dir, transform_name='test_transform_1')
+    test_dataset = TestSegmentationDataset(src_sliced_dir, transform_name='test_transform_1', out_dir=dst_sliced_dir)
     test_dataloader = torch.utils.data.DataLoader(
         test_dataset, batch_size=args.batch_size, pin_memory=True, num_workers=8,
     )
@@ -134,7 +134,7 @@ def main(args):
             prediction = prediction.round().int().cpu().numpy().astype("uint8")
             profile = test_dataset.read_image_profile(image_id)
             dst_path = os.path.join(dst_sliced_dir, image_id)
-            cv2.imwrite(dst_path, prediction)
+            cv2.imwrite(dst_path, prediction[0])
 
 
 if __name__ == "__main__":

@@ -184,9 +184,13 @@ class SegmentationDatasetPupil(Dataset):
 
 class TestSegmentationDataset(Dataset):
 
-    def __init__(self, images_dir, transform_name=None):
+    def __init__(self, images_dir, transform_name=None, dst_dir=None):
         super().__init__()
-        self.ids = os.listdir(images_dir)
+        initial_ids = os.listdir(images_dir)
+        if dst_dir is not None:
+            done_ids = set(os.listdir(dst_dir))
+            initial_ids = [i for i in initial_ids if i not in done_ids]
+        self.ids = initial_ids
         self.images_dir = images_dir
         self.transform = transforms.__dict__[transform_name] if transform_name else None
 
