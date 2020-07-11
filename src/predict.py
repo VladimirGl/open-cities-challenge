@@ -121,7 +121,7 @@ def main(args):
 
     # predict not stitched data
     print("Predicting initial files")
-    test_dataset = TestSegmentationDataset(src_sliced_dir, transform_name='test_transform_1', out_dir=dst_sliced_dir)
+    test_dataset = TestSegmentationDataset(src_sliced_dir, transform_name='test_transform_1', dst_dir=dst_sliced_dir)
     test_dataloader = torch.utils.data.DataLoader(
         test_dataset, batch_size=args.batch_size, pin_memory=True, num_workers=8,
     )
